@@ -71,11 +71,30 @@ with col1:
             icon=folium.Icon(color="darkgreen", icon="tree", prefix="fa")
         ).add_to(india_map)
     
-    map_data = st_folium(india_map, width=680, height=520, key="main_map")
+        map_data = st_folium(india_map, width=680, height=520, key="main_map")
 
+# 🟢 PASTE THE NEW ROBUST EXTRACTION LOGIC HERE:
 selected_state = None
-if map_data and map_data.get("last_object_clicked_popup"):
-    selected_state = map_data["last_object_clicked_popup"]
+if map_data:
+    if map_data.get("last_object_clicked_tooltip"):
+        raw_tooltip = map_data["last_object_clicked_tooltip"].strip()
+        for state in INDIA_STATES.keys():
+            if state in raw_tooltip:
+                selected_state = state
+                break
+                
+    if not selected_state and map_data.get("last_object_clicked_popup"):
+        selected_state = map_data["last_object_clicked_popup"].strip()
+        
+    if not selected_state and map_data.get("last_object_clicked"):
+        last_obj = map_data["last_object_clicked"]
+        if isinstance(last_obj, dict) and last_obj.get("value"):
+            selected_state = last_obj["value"].strip()
+
+# ⚠️ LEAVE THE REST OF YOUR CODE ALONE (The "with col2:" block starts right here)
+with col2:
+    if selected_state and selected_state in INDIA_STATES:
+
 
 with col2:
     if selected_state and selected_state in INDIA_STATES:
