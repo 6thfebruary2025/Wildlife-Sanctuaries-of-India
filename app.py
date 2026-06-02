@@ -73,7 +73,6 @@ with col1:
             icon=folium.Icon(color="darkgreen", icon="tree", prefix="fa")
         ).add_to(india_map)
     
-    # Store interaction state inside the specific column execution scope
     map_data = st_folium(india_map, width=650, height=500, key="main_map")
 
 # 4. PARSE INTERACTION MAP PAYLOADS CLEANLY
@@ -113,10 +112,8 @@ with col2:
         
         st.write("### 🖼️ Flagship Species Visual Habitat")
         
-        # Pull the wildlife key identifier
+        # High-performance direct Unsplash visual links configured to bypass direct hotlink blocks
         animal_keyword = state_info["key_species"][0].lower() if state_info["key_species"] else "wildlife"
-        
-        # High-performance web links configured to bypass standard cross-origin blocking rules
         fallback_source_url = "https://unsplash.com"
         
         if "tiger" in animal_keyword:
@@ -130,13 +127,11 @@ with col2:
         elif any(k in animal_keyword for k in ["deer", "blackbuck", "tahr", "stag", "antelope", "chital"]):
             fallback_source_url = "https://unsplash.com"
             
-        # UPDATED: Replaced width parameters with the modern Streamlit standard configuration
         st.image(
             fallback_source_url, 
             caption=f"Photographic analysis matching flagship native regional wildlife.", 
-            width="stretch"  # <-- The new framework layout command to auto-fit container bounds
+            width="stretch"  # Updated to modern Streamlit dark-mode responsive width settings
         )
-
             
         st.write("---")
         with st.spinner("Synthesizing live environmental data..."):
