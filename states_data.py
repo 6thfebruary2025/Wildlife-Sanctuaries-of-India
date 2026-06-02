@@ -1,4 +1,4 @@
-# states_data.py
+# states_data.py (PART 1 - Save this first)
 
 INDIA_STATES = {
     "Andhra Pradesh": {
@@ -127,6 +127,8 @@ INDIA_STATES = {
         "key_species": ["Blyth's Tragopan", "Hoolock Gibbon", "Amur Falcon", "Wild Boar"],
         "species_image": "https://unsplash.com"
     },
+# states_data.py (PART 2 - Paste this directly below Part 1)
+
     "Odisha": {
         "coords": [20.9517, 85.0985],
         "area_sq_km": "8,354",
@@ -207,4 +209,50 @@ INDIA_STATES = {
     "Chandigarh": {
         "coords": [30.7333, 76.7794],
         "area_sq_km": "26",
-    "total_sanctuaries": 2,"key_species": ["Sambar Deer", "Indian Grey Mongoose", "Peafowl", "Golden Jackal"],"species_image": "unsplash.com"},"Dadra and Nagar Haveli and Daman and Diu": {"coords": [20.1809, 73.0169],"area_sq_km": "92","total_sanctuaries": 1,"key_species": ["Rusty-spotted Cat", "Leopard", "Four-horned Antelope", "Fruit Bat"],"species_image": "unsplash.com"},"Delhi": {"coords": [28.7041, 77.1025],"area_sq_km": "27","total_sanctuaries": 1,"key_species": ["Nilgai", "Golden Jackal", "Black-crowned Night Heron", "Porcupine"],"species_image": "unsplash.com"},"Jammu and Kashmir": {"coords": [33.7782, 76.5762],"area_sq_km": "2,842","total_sanctuaries": 15,"key_species": ["Hangul (Kashmir Stag)", "Himalayan Black Bear", "Leopard Cat", "Markhor"],"species_image": "unsplash.com"},"Ladakh": {"coords": [34.1526, 77.5771],"area_sq_km": "4,700","total_sanctuaries": 2,"key_species": ["Snow Leopard", "Tibetan Wild Ass (Kiang)", "Black-necked Crane", "Bharal"],"species_image": "unsplash.com"},"Lakshadweep": {"coords": [10.5667, 72.6417],"area_sq_km": "12","total_sanctuaries": 1,"key_species": ["Sooty Tern", "Ghost Crab", "Green Sea Turtle", "Butterfly Fish"],"species_image": "unsplash.com"},"Puducherry": {"coords": [11.9416, 79.8083],"area_sq_km": "5","total_sanctuaries": 1,"key_species": ["Little Egret", "Spotted Owlet", "Golden Jackal", "Fan-throated Lizard"],"species_image": "unsplash.com"}
+        "total_sanctuaries": 2,
+        "key_species": ["Sambar Deer", "Indian Grey Mongoose", "Peafowl", "Golden Jackal"],
+        "species_image": "https://unsplash.com"
+    },
+    "Dadra and Nagar Haveli and Daman and Diu": {
+        "coords": [20.1809, 73.0169],
+        "area_sq_km": "92",
+        "total_sanctuaries": 1,
+        "key_species": ["Rusty-spotted Cat", "Leopard", "Four-horned Antelope", "Fruit Bat"],
+        "species_image": "https://unsplash.com"
+    },
+    "Delhi": {
+        "coords": [28.7041, 77.1025],
+        "area_sq_km": "27",
+        "total_sanctuaries": 1,
+        "key_species": ["Nilgai", "Golden Jackal", "Black-crowned Night Heron", "Porcupine"],
+        "species_image": "https://unsplash.com"
+    },
+    "Jammu and Kashmir": {
+        "coords": [33.7782, 76.5762],
+        "area_sq_km": "2,842",
+        "total_sanctuaries": 15,
+        "key_species": ["Hangul (Kashmir Stag)", "Himalayan Black Bear", "Leopard Cat", "Markhor"],
+        "species_image": "https://unsplash.com"
+    },
+    "Ladakh": {
+        "coords": [34.1526, 77.5771],
+        "area_sq_km": "4,700",
+        "total_sanctuaries": 2,
+        "key_species": ["Snow Leopard", "Tibetan Wild Ass (Kiang)", "Black-necked Crane", "Bharal"],
+        "species_image": "https://unsplash.com"
+    },
+    "Lakshadweep": {
+        "coords": [10.5667, 72.6417],
+        "area_sq_km": "12",
+        "total_sanctuaries": 1,
+        "key_species": ["Sooty Tern", "Ghost Crab", "Green Sea Turtle", "Butterfly Fish"],
+        "species_image": "https://unsplash.com"
+    },
+    "Puducherry": {
+        "coords": [11.9416, 79.8083],
+        "area_sq_km": "5",
+        "total_sanctuaries": 1,
+        "key_species": ["Little Egret", "Spotted Owlet", "Golden Jackal", "Fan-throated Lizard"],
+        "species_image": "https://unsplash.com"
+    }
+}
