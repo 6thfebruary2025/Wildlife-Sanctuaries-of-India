@@ -3,53 +3,41 @@ import streamlit as st
 import folium
 from streamlit_folium import st_folium
 from google import genai
-from dotenv import load_dotenv  # <-- ADD THIS LINE
+from dotenv import load_dotenv
 
-# Load local secrets from the .env file immediately on startup
-load_dotenv()  # <-- ADD THIS LINE
+# Import our comprehensive data dictionary directly from our new database module
+from states_data import INDIA_STATES
 
-# 1. Page Configuration & Title
-st.set_page_config(page_title="India Wildlife AI Explorer", layout="wide")
-st.title("🗺️ India Wildlife Sanctuary AI Explorer")
+load_dotenv()
 
-st.write("Click on any marker on the map of India to instantly discover its key wildlife sanctuaries via AI.")
+st.set_page_config(page_title="India Wildlife Production Dashboard", layout="wide")
 
-# =====================================================================
-# SECURE ENVIRONMENT VARIABLE FETCH
+# App Header Styling
+st.markdown("""
+    <h1 style='text-align: center; color: #1E4620;'>🌿 Enterprise India Wildlife Sanctuary Analytics Dashboard</h1>
+    <p style='text-align: center; font-size: 16px; color: #4A5D4E;'>
+        An advanced geospatial explorer mapping regional ecosystems, area metrics, indigenous species, and live AI zoological data.
+    </p>
+    <hr style='border: 1px solid #E1E8E2;'/>
+""", unsafe_with_html=True)
+
 API_KEY = os.environ.get("GEMINI_API_KEY") 
-# =====================================================================
-
 if not API_KEY:
-    st.error("⚠️ Gemini API Key not found! Please add GEMINI_API_KEY to your Codespaces Secrets.")
+    st.error("⚠️ Gemini API Key configuration missing from deployment environment properties.")
     st.stop()
 
-# Initialize the new modern client
 client = genai.Client(api_key=API_KEY)
 
-# State Data: Map Coordinates (Latitude & Longitude)
-state_coordinates = {
-    "Assam": [26.2006, 92.9376],
-    "Gujarat": [22.2587, 71.1924],
-    "Karnataka": [15.3173, 75.7139],
-    "Madhya Pradesh": [22.9734, 78.6569],
-    "Kerala": [10.8505, 76.2711],
-    "Rajasthan": [27.0238, 74.2179],
-    "West Bengal": [22.9868, 87.8550],
-    "Andhra Pradesh": [15.9129, 79.7400],
-    "Uttarakhand": [30.0668, 79.0193],
-    "Tamil Nadu": [11.1271, 78.6569]
-}
-
-import time  # <-- Make sure this is imported at the very top of app.py
-
+@st.cache_data(show_spinner=False)
 def get_ai_wildlife_info(state_name):
     prompt = f"""
-    Act as an expert Indian wildlife zoologist. Provide a neat, structured guide for the major wildlife sanctuaries and national parks in '{state_name}'.
-    Format the response strictly with clear bold headers:
-    - **Name of Sanctuary / National Park**
-    - **Ecological Importance**
-    - **Key Species / Famous Animals found there** (Use clean bullet points)
-    Keep the layout compact and highly engaging.
+    Act as an elite senior Indian wildlife conservationist. 
+    Provide a highly technical, executive summary of the wildlife management strategies, current environmental threats, and top 3 national parks within '{state_name}'.
+    Format strictly using markdown headers:
+    ### 🏗️ Primary National Parks & Reserves
+    ### ⚡ Key Conservation/Ecological Threats
+    ### 🛡️ Ongoing Wildlife Protection Initiatives
+    Keep descriptions dense, informative, professional, and omit introductory conversational filler.
     """
     try:
         response = client.models.generate_content(
@@ -58,43 +46,72 @@ def get_ai_wildlife_info(state_name):
         )
         return response.text
     except Exception as e:
-        error_msg = str(e)
-        # Catching the exact 429 quota error to show a user-friendly message
-        if "429" in error_msg or "RESOURCE_EXHAUSTED" in error_msg:
-            return (
-                "⚠️ **The AI is taking a quick breath!** \n\n"
-                "We are using Google's free API tier which limits map clicks to 20 requests per minute. "
-                "Please wait a few seconds and try clicking the state pin again."
-            )
-        return f"Error connecting to AI: {e}"
+        if "429" in str(e) or "RESOURCE_EXHAUSTED" in str(e):
+            return "⚠️ **Rate Limit Reached.** Cached state metadata remains fully operational. AI text layer will refresh momentarily."
+        return f"Database Stream Interrupted: {e}"
 
-# Create the Interactive Layout (Columns)
-col1, col2 = st.columns([1.2, 1])
+# Layout Construction
+col1, col2 = st.columns([1.1, 1])
 
 with col1:
-    st.subheader("Select a State on the Map")
+    st.subheader("🗺️ Regional Geospatial Selection")
+    
+    # Render modern dark/terrain balanced baseline map center point
     india_map = folium.Map(location=[21.7679, 78.8718], zoom_start=5, tiles="OpenStreetMap")
     
-    for state, coords in state_coordinates.items():
+    # Loop over database dictionary values to dynamically generate all map leaf components
+    for state, details in INDIA_STATES.items():
         folium.Marker(
-            location=coords,
+            location=details["coords"],
             popup=state,
-            tooltip=f"Click to explore {state}",
-            icon=folium.Icon(color="green", icon="leaf")
+            tooltip=f"Analyze {state} Ecosystem",
+            icon=folium.Icon(color="darkgreen", icon="tree", prefix="fa")
         ).add_to(india_map)
     
-    map_data = st_folium(india_map, width=650, height=500)
+    map_data = st_folium(india_map, width=680, height=520, key="main_map")
 
 selected_state = None
 if map_data and map_data.get("last_object_clicked_popup"):
     selected_state = map_data["last_object_clicked_popup"]
 
 with col2:
-    st.subheader("🌿 Wildlife Sanctuary Details")
-    if selected_state:
-        st.success(f"Displaying results for: **{selected_state}**")
-        with st.spinner("Fetching ecological data from Gemini AI..."):
+    if selected_state and selected_state in INDIA_STATES:
+        state_info = INDIA_STATES[selected_state]
+        
+        st.markdown(f"<h2 style='color: #2E6F40;'>📊 {selected_state} Ecological Profile</h2>", unsafe_with_html=True)
+        
+        # Professional Analytics Metrics Row
+        m_col1, m_col2 = st.columns(2)
+        with m_col1:
+            st.metric(label="Protected Area Coverage", value=f"{state_info['area_sq_km']} km²", delta="Official Data")
+        with m_col2:
+            st.metric(label="Major Sanctuaries Tracked", value=state_info['total_sanctuaries'])
+            
+        # Key Target Species Badges Display Section
+        st.write("### 🐾 Flagship Indigenous Species")
+        badge_html = "".join([f"<span style='background-color:#EBF5FB; color:#1F618D; padding:5px 12px; margin:4px; border-radius:15px; font-weight:bold; display:inline-block; border:1px solid #AED6F1;'>{species}</span>" for species in state_info["key_species"]])
+        st.markdown(badge_html, unsafe_with_html=True)
+        
+        # High-Fidelity Visual Asset Layer Showcase Placeholder
+        st.write("### 🖼️ Key Ecosystem Habitats")
+        
+        # Professional systems use dynamic search strings. We render an organized container layout:
+        img_col1, img_col2 = st.columns(2)
+        with img_col1:
+            st.image("https://unsplash.com", caption=f"Primary Habitat: {state_info['key_species'][0]}", use_container_width=True)
+        with img_col2:
+            st.image("https://unsplash.com", caption="Protected Reserve Core Zone", use_container_width=True)
+            
+        # Deep Analytics Live AI Text Delivery 
+        st.write("---")
+        with st.spinner("Synthesizing live environmental data..."):
             ai_report = get_ai_wildlife_info(selected_state)
             st.markdown(ai_report)
+            
     else:
-        st.info("👈 Please click a green leaf marker pin on the map to display real-time AI sanctuary insights.")
+        st.markdown("""
+            <div style='background-color: #F4F6F4; border-left: 5px solid #2E6F40; padding: 20px; border-radius: 4px; margin-top: 50px;'>
+                <h4 style='margin-top:0; color: #2E6F40;'>👈 Awaiting System Selection</h4>
+                <p style='margin-bottom:0; color: #555;'>Please select an active geospatial green leaf node on the interactive tracking map to compute and stream deep analytics, metadata, and live AI environmental reports.</p>
+            </div>
+        """, unsafe_with_html=True)
