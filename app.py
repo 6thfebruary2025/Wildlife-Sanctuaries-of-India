@@ -106,7 +106,7 @@ with col2:
         with m_col2:
             st.metric(label="Major Sanctuaries Tracked", value=state_info['total_sanctuaries'])
             
-        st.write("### 🐾 Flagship Indigenous Species")
+        '''st.write("### 🐾 Flagship Indigenous Species")
         badge_html = "".join([f"<span style='background-color:#1E3A24; color:#4AF273; padding:6px 14px; margin:5px; border-radius:15px; font-weight:bold; display:inline-block; border:1px solid #2A5C34;'>{species}</span>" for species in state_info["key_species"]])
         st.markdown(badge_html, unsafe_allow_html=True)
         
@@ -131,7 +131,7 @@ with col2:
             fallback_source_url, 
             caption=f"Photographic analysis matching flagship native regional wildlife.", 
             width="stretch"  # Updated to modern Streamlit dark-mode responsive width settings
-        )
+        )'''
             
         st.write("---")
         with st.spinner("Synthesizing live environmental data..."):
