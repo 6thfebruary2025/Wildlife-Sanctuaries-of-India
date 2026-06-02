@@ -19,7 +19,7 @@ st.markdown("""
         An advanced geospatial explorer mapping regional ecosystems, area metrics, indigenous species, and live AI zoological data.
     </p>
     <hr style='border: 1px solid #E1E8E2;'/>
-""", unsafe_with_html=True)
+""", allow_html=True)
 
 API_KEY = os.environ.get("GEMINI_API_KEY") 
 if not API_KEY:
