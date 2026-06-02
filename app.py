@@ -13,13 +13,14 @@ load_dotenv()
 st.set_page_config(page_title="India Wildlife Production Dashboard", layout="wide")
 
 # App Header Styling
+# App Header Styling
 st.markdown("""
     <h1 style='text-align: center; color: #1E4620;'>🌿 Enterprise India Wildlife Sanctuary Analytics Dashboard</h1>
     <p style='text-align: center; font-size: 16px; color: #4A5D4E;'>
         An advanced geospatial explorer mapping regional ecosystems, area metrics, indigenous species, and live AI zoological data.
     </p>
     <hr style='border: 1px solid #E1E8E2;'/>
-""", allow_html=True)
+""", allow_html=True)  # <-- CHANGED FROM unsafe_with_html=True TO allow_html=True
 
 API_KEY = os.environ.get("GEMINI_API_KEY") 
 if not API_KEY:
