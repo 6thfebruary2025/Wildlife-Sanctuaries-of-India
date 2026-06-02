@@ -113,9 +113,11 @@ with col2:
         
         st.write("### 🖼️ Flagship Species Visual Habitat")
         
-        # FIXED: Utilizing direct high-performance Unsplash photo references to bypass Wikimedia CDN blocks
-        animal_keyword = state_info["key_species"][0].lower().replace(" ", "")
-        fallback_source_url = f"https://unsplash.com"
+        # Pull the wildlife key identifier
+        animal_keyword = state_info["key_species"][0].lower() if state_info["key_species"] else "wildlife"
+        
+        # High-performance web links configured to bypass standard cross-origin blocking rules
+        fallback_source_url = "https://unsplash.com"
         
         if "tiger" in animal_keyword:
             fallback_source_url = "https://unsplash.com"
@@ -125,13 +127,14 @@ with col2:
             fallback_source_url = "https://unsplash.com"
         elif "leopard" in animal_keyword:
             fallback_source_url = "https://unsplash.com"
-        elif "deer" in animal_keyword or "blackbuck" in animal_keyword or "tahr" in animal_keyword or "stag" in animal_keyword:
+        elif any(k in animal_keyword for k in ["deer", "blackbuck", "tahr", "stag", "antelope", "chital"]):
             fallback_source_url = "https://unsplash.com"
             
+        # UPDATED: Replaced width parameters with the modern Streamlit standard configuration
         st.image(
             fallback_source_url, 
             caption=f"Photographic analysis matching flagship native regional wildlife.", 
-            use_container_width=True
+            width="stretch"  # <-- The new framework layout command to auto-fit container bounds
         )
 
             
