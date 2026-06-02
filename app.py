@@ -131,8 +131,9 @@ with col2:
         st.image(
             fallback_source_url, 
             caption=f"Photographic analysis matching flagship native regional wildlife.", 
-            width=None, # Automatically scales to fit container bounds width
+            use_container_width=True
         )
+
             
         st.write("---")
         with st.spinner("Synthesizing live environmental data..."):
