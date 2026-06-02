@@ -1,25 +1,26 @@
 import os
-import time
 import streamlit as st
 import folium
 from streamlit_folium import st_folium
 from google import genai
 from dotenv import load_dotenv
 
-# Import our comprehensive data dictionary directly from our new database module
+# Import our comprehensive data dictionary directly from our states database module
 from states_data import INDIA_STATES
 
 load_dotenv()
 
 st.set_page_config(page_title="India Wildlife Production Dashboard", layout="wide")
 
-# App Header Styling using production parameter 'unsafe_allow_html=True'
+# High-Contrast Premium Light-Green Header Layout for Dark Background
 st.markdown("""
-    <h1 style='text-align: center; color: #1E4620;'>🌿 Enterprise India Wildlife Sanctuary Analytics Dashboard</h1>
-    <p style='text-align: center; font-size: 16px; color: #4A5D4E;'>
+    <h1 style='text-align: center; color: #4AF273; text-shadow: 2px 2px 4px rgba(0,0,0,0.6); font-weight: 800; font-family: sans-serif; padding-top: 10px;'>
+        🌿 Enterprise India Wildlife Sanctuary Analytics Dashboard
+    </h1>
+    <p style='text-align: center; font-size: 16px; color: #A4C2A9; font-weight: 500;'>
         An advanced geospatial explorer mapping regional ecosystems, area metrics, indigenous species, and live AI zoological data.
     </p>
-    <hr style='border: 1px solid #E1E8E2;'/>
+    <hr style='border: 1px solid #2A4830;'/>
 """, unsafe_allow_html=True)
 
 API_KEY = os.environ.get("GEMINI_API_KEY") 
@@ -75,7 +76,7 @@ with col1:
     
     map_data = st_folium(india_map, width=680, height=520, key="main_map")
 
-# New Multi-Key extraction block supporting older and newer streamlit-folium definitions
+# Robust multi-key tracking engine to hook interface clicks across any folium deployment version
 selected_state = None
 if map_data:
     if map_data.get("last_object_clicked_tooltip"):
@@ -97,7 +98,7 @@ with col2:
     if selected_state and selected_state in INDIA_STATES:
         state_info = INDIA_STATES[selected_state]
         
-        st.markdown(f"<h2 style='color: #2E6F40;'>📊 {selected_state} Ecological Profile</h2>", unsafe_allow_html=True)
+        st.markdown(f"<h2 style='color: #4AF273; text-shadow: 1px 1px 2px rgba(0,0,0,0.5);'>📊 {selected_state} Ecological Profile</h2>", unsafe_allow_html=True)
         
         # Professional Analytics Metrics Row
         m_col1, m_col2 = st.columns(2)
@@ -108,17 +109,16 @@ with col2:
             
         # Key Target Species Badges Display Section
         st.write("### 🐾 Flagship Indigenous Species")
-        badge_html = "".join([f"<span style='background-color:#EBF5FB; color:#1F618D; padding:5px 12px; margin:4px; border-radius:15px; font-weight:bold; display:inline-block; border:1px solid #AED6F1;'>{species}</span>" for species in state_info["key_species"]])
+        badge_html = "".join([f"<span style='background-color:#1E3A24; color:#4AF273; padding:6px 14px; margin:5px; border-radius:15px; font-weight:bold; display:inline-block; border:1px solid #2A5C34;'>{species}</span>" for species in state_info["key_species"]])
         st.markdown(badge_html, unsafe_allow_html=True)
         
-        # High-Fidelity Visual Asset Layer Showcase Placeholder
-        st.write("### 🖼️ Key Ecosystem Habitats")
-        
-        img_col1, img_col2 = st.columns(2)
-        with img_col1:
-            st.image("https://unsplash.com", caption=f"Primary Habitat: {state_info['key_species'][0]}", use_container_width=True)
-        with img_col2:
-            st.image("https://unsplash.com", caption="Protected Reserve Core Zone", use_container_width=True)
+        # High-Fidelity Visual Asset Layer Showcase - Loaded dynamically from the unique database URL
+        st.write("### 🖼️ Flagship Species Visual Habitat")
+        st.image(
+            state_info['species_image'], 
+            caption=f"Featured Native Wildlife: {', '.join(state_info['key_species'])} documented in protected zones.", 
+            use_container_width=True
+        )
             
         # Deep Analytics Live AI Text Delivery 
         st.write("---")
@@ -127,9 +127,10 @@ with col2:
             st.markdown(ai_report)
             
     else:
+        # Balanced Dark-Theme Awaiting Selection Box Container
         st.markdown("""
-            <div style='background-color: #F4F6F4; border-left: 5px solid #2E6F40; padding: 20px; border-radius: 4px; margin-top: 50px;'>
-                <h4 style='margin-top:0; color: #2E6F40;'>👈 Awaiting System Selection</h4>
-                <p style='margin-bottom:0; color: #555;'>Please select an active geospatial green leaf node on the interactive tracking map to compute and stream deep analytics, metadata, and live AI environmental reports.</p>
+            <div style='background-color: #152918; border-left: 5px solid #4AF273; padding: 20px; border-radius: 4px; margin-top: 50px; border-top: 1px solid #233D27; border-right: 1px solid #233D27; border-bottom: 1px solid #233D27;'>
+                <h4 style='margin-top:0; color: #4AF273;'>👈 Awaiting System Selection</h4>
+                <p style='margin-bottom:0; color: #A4C2A9;'>Please select an active geospatial green leaf node on the interactive tracking map to compute and stream deep analytics, metadata, and live AI environmental reports.</p>
             </div>
         """, unsafe_allow_html=True)
