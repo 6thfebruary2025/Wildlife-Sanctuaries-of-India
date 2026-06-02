@@ -39,7 +39,7 @@ state_coordinates = {
     "Uttarakhand": [30.0668, 79.0193],
     "Tamil Nadu": [11.1271, 78.6569]
 }
-
+import time
 def get_ai_wildlife_info(state_name):
     prompt = f"""
     Act as an expert Indian wildlife zoologist. Provide a neat, structured guide for the major wildlife sanctuaries and national parks in '{state_name}'.
