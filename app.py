@@ -39,7 +39,9 @@ state_coordinates = {
     "Uttarakhand": [30.0668, 79.0193],
     "Tamil Nadu": [11.1271, 78.6569]
 }
-import time
+
+import time  # <-- Make sure this is imported at the very top of app.py
+
 def get_ai_wildlife_info(state_name):
     prompt = f"""
     Act as an expert Indian wildlife zoologist. Provide a neat, structured guide for the major wildlife sanctuaries and national parks in '{state_name}'.
@@ -50,13 +52,20 @@ def get_ai_wildlife_info(state_name):
     Keep the layout compact and highly engaging.
     """
     try:
-        # Utilizing the modern stable 'gemini-1.5-flash' model
         response = client.models.generate_content(
             model='gemini-2.5-flash',
             contents=prompt,
         )
         return response.text
     except Exception as e:
+        error_msg = str(e)
+        # Catching the exact 429 quota error to show a user-friendly message
+        if "429" in error_msg or "RESOURCE_EXHAUSTED" in error_msg:
+            return (
+                "⚠️ **The AI is taking a quick breath!** \n\n"
+                "We are using Google's free API tier which limits map clicks to 20 requests per minute. "
+                "Please wait a few seconds and try clicking the state pin again."
+            )
         return f"Error connecting to AI: {e}"
 
 # Create the Interactive Layout (Columns)
