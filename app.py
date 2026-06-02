@@ -1,4 +1,5 @@
 import os
+import time
 import streamlit as st
 import folium
 from streamlit_folium import st_folium
@@ -12,17 +13,14 @@ load_dotenv()
 
 st.set_page_config(page_title="India Wildlife Production Dashboard", layout="wide")
 
-# App Header Styling
-# App Header Styling
-# App Header Styling
+# App Header Styling using production parameter 'unsafe_allow_html=True'
 st.markdown("""
     <h1 style='text-align: center; color: #1E4620;'>🌿 Enterprise India Wildlife Sanctuary Analytics Dashboard</h1>
     <p style='text-align: center; font-size: 16px; color: #4A5D4E;'>
         An advanced geospatial explorer mapping regional ecosystems, area metrics, indigenous species, and live AI zoological data.
     </p>
     <hr style='border: 1px solid #E1E8E2;'/>
-""", unsafe_allow_html=True)  # <-- FIXED TO THE EXACT PARAMETER NAME
-
+""", unsafe_allow_html=True)
 
 API_KEY = os.environ.get("GEMINI_API_KEY") 
 if not API_KEY:
@@ -49,8 +47,13 @@ def get_ai_wildlife_info(state_name):
         )
         return response.text
     except Exception as e:
-        if "429" in str(e) or "RESOURCE_EXHAUSTED" in str(e):
-            return "⚠️ **Rate Limit Reached.** Cached state metadata remains fully operational. AI text layer will refresh momentarily."
+        error_msg = str(e)
+        if "429" in error_msg or "RESOURCE_EXHAUSTED" in error_msg:
+            return (
+                "⚠️ **The AI is taking a quick breath!** \n\n"
+                "We are using Google's free API tier which limits map clicks to 20 requests per minute. "
+                "Please wait a few seconds and try clicking the state pin again."
+            )
         return f"Database Stream Interrupted: {e}"
 
 # Layout Construction
@@ -59,10 +62,9 @@ col1, col2 = st.columns([1.1, 1])
 with col1:
     st.subheader("🗺️ Regional Geospatial Selection")
     
-    # Render modern dark/terrain balanced baseline map center point
     india_map = folium.Map(location=[21.7679, 78.8718], zoom_start=5, tiles="OpenStreetMap")
     
-    # Loop over database dictionary values to dynamically generate all map leaf components
+    # Loop over database dictionary values to dynamically generate all map components
     for state, details in INDIA_STATES.items():
         folium.Marker(
             location=details["coords"],
@@ -71,9 +73,9 @@ with col1:
             icon=folium.Icon(color="darkgreen", icon="tree", prefix="fa")
         ).add_to(india_map)
     
-        map_data = st_folium(india_map, width=680, height=520, key="main_map")
+    map_data = st_folium(india_map, width=680, height=520, key="main_map")
 
-# 🟢 PASTE THE NEW ROBUST EXTRACTION LOGIC HERE:
+# New Multi-Key extraction block supporting older and newer streamlit-folium definitions
 selected_state = None
 if map_data:
     if map_data.get("last_object_clicked_tooltip"):
@@ -91,13 +93,11 @@ if map_data:
         if isinstance(last_obj, dict) and last_obj.get("value"):
             selected_state = last_obj["value"].strip()
 
-# ⚠️ LEAVE THE REST OF YOUR CODE ALONE (The "with col2:" block starts right here)
 with col2:
     if selected_state and selected_state in INDIA_STATES:
-        
         state_info = INDIA_STATES[selected_state]
         
-        st.markdown(f"<h2 style='color: #2E6F40;'>📊 {selected_state} Ecological Profile</h2>", unsafe_with_html=True)
+        st.markdown(f"<h2 style='color: #2E6F40;'>📊 {selected_state} Ecological Profile</h2>", unsafe_allow_html=True)
         
         # Professional Analytics Metrics Row
         m_col1, m_col2 = st.columns(2)
@@ -109,12 +109,11 @@ with col2:
         # Key Target Species Badges Display Section
         st.write("### 🐾 Flagship Indigenous Species")
         badge_html = "".join([f"<span style='background-color:#EBF5FB; color:#1F618D; padding:5px 12px; margin:4px; border-radius:15px; font-weight:bold; display:inline-block; border:1px solid #AED6F1;'>{species}</span>" for species in state_info["key_species"]])
-        st.markdown(badge_html, unsafe_with_html=True)
+        st.markdown(badge_html, unsafe_allow_html=True)
         
         # High-Fidelity Visual Asset Layer Showcase Placeholder
         st.write("### 🖼️ Key Ecosystem Habitats")
         
-        # Professional systems use dynamic search strings. We render an organized container layout:
         img_col1, img_col2 = st.columns(2)
         with img_col1:
             st.image("https://unsplash.com", caption=f"Primary Habitat: {state_info['key_species'][0]}", use_container_width=True)
@@ -133,4 +132,4 @@ with col2:
                 <h4 style='margin-top:0; color: #2E6F40;'>👈 Awaiting System Selection</h4>
                 <p style='margin-bottom:0; color: #555;'>Please select an active geospatial green leaf node on the interactive tracking map to compute and stream deep analytics, metadata, and live AI environmental reports.</p>
             </div>
-        """, unsafe_with_html=True)
+        """, unsafe_allow_html=True)
