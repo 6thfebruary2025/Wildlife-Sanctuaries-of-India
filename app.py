@@ -94,10 +94,7 @@ if map_data:
 # ⚠️ LEAVE THE REST OF YOUR CODE ALONE (The "with col2:" block starts right here)
 with col2:
     if selected_state and selected_state in INDIA_STATES:
-
-
-with col2:
-    if selected_state and selected_state in INDIA_STATES:
+        
         state_info = INDIA_STATES[selected_state]
         
         st.markdown(f"<h2 style='color: #2E6F40;'>📊 {selected_state} Ecological Profile</h2>", unsafe_with_html=True)
