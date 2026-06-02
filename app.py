@@ -106,32 +106,33 @@ with col2:
         with m_col2:
             st.metric(label="Major Sanctuaries Tracked", value=state_info['total_sanctuaries'])
             
-        '''st.write("### 🐾 Flagship Indigenous Species")
-        badge_html = "".join([f"<span style='background-color:#1E3A24; color:#4AF273; padding:6px 14px; margin:5px; border-radius:15px; font-weight:bold; display:inline-block; border:1px solid #2A5C34;'>{species}</span>" for species in state_info["key_species"]])
-        st.markdown(badge_html, unsafe_allow_html=True)
+        #st.write("### 🐾 Flagship Indigenous Species")
+        #badge_html = "".join([f"<span style='background-color:#1E3A24; color:#4AF273; padding:6px 14px; margin:5px; border-radius:15px; font-weight:bold; display:inline-block; border:1px solid #2A5C34;'>{species}</span>" for species in state_info["key_species"]])
+        #st.markdown(badge_html, unsafe_allow_html=True)
         
-        st.write("### 🖼️ Flagship Species Visual Habitat")
+        #st.write("### 🖼️ Flagship Species Visual Habitat")
         
         # High-performance direct Unsplash visual links configured to bypass direct hotlink blocks
-        animal_keyword = state_info["key_species"][0].lower() if state_info["key_species"] else "wildlife"
-        fallback_source_url = "https://unsplash.com"
+        #animal_keyword = state_info["key_species"][0].lower() if state_info["key_species"] else "wildlife"
+        #fallback_source_url = "https://unsplash.com"
         
-        if "tiger" in animal_keyword:
-            fallback_source_url = "https://unsplash.com"
-        elif "elephant" in animal_keyword:
-            fallback_source_url = "https://unsplash.com"
-        elif "rhino" in animal_keyword:
-            fallback_source_url = "https://unsplash.com"
-        elif "leopard" in animal_keyword:
-            fallback_source_url = "https://unsplash.com"
-        elif any(k in animal_keyword for k in ["deer", "blackbuck", "tahr", "stag", "antelope", "chital"]):
-            fallback_source_url = "https://unsplash.com"
+        #if "tiger" in animal_keyword:
+            #fallback_source_url = "https://unsplash.com"
+        #elif "elephant" in animal_keyword:
+           # fallback_source_url = "https://unsplash.com"
+        #elif "rhino" in animal_keyword:
+           # fallback_source_url = "https://unsplash.com"
+        #elif "leopard" in animal_keyword:
+           # fallback_source_url = "https://unsplash.com"
+        #elif any(k in animal_keyword for k in ["deer", "blackbuck", "tahr", "stag", "antelope", "chital"]):
+         #   fallback_source_url = "https://unsplash.com"
             
-        st.image(
-            fallback_source_url, 
-            caption=f"Photographic analysis matching flagship native regional wildlife.", 
-            width="stretch"  # Updated to modern Streamlit dark-mode responsive width settings
-        )'''
+        
+        #st.image(
+         #   fallback_source_url, 
+          #  caption=f"Photographic analysis matching flagship native regional wildlife.", 
+           # width="stretch"  # Updated to modern Streamlit dark-mode responsive width settings
+        #)*/
             
         st.write("---")
         with st.spinner("Synthesizing live environmental data..."):
